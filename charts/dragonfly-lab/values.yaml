@@ -1,0 +1,50 @@
+targetApp:
+  replicaCount: 1
+
+  image:
+    repository: dragonfly-load-lab-target-app
+    tag: latest
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 4400
+
+  cacheTtlSeconds: 60
+  pgPoolMax: 20
+
+
+dragonfly:
+  enabled: true
+
+  image:
+    repository: docker.dragonflydb.io/dragonflydb/dragonfly
+    tag: v1.27.0
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 6379
+
+  maxMemory: 512mb
+  proactorThreads: 1
+
+
+postgresql:
+  enabled: true
+
+  image:
+    repository: postgres
+    tag: 16-alpine
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  database: loadlab
+  username: loadlab
+
+  persistence:
+    enabled: true
+    size: 1Gi

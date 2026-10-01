@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dragonfly
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: dragonfly
+
+  template:
+    metadata:
+      labels:
+        app: dragonfly
+
+    spec:
+      containers:
+        - name: dragonfly
+          image: "{{ .Values.dragonfly.image.repository }}:{{ .Values.dragonfly.image.tag }}"
+          imagePullPolicy: {{ .Values.dragonfly.image.pullPolicy }}
+
+          args:
+            - "--maxmemory={{ .Values.dragonfly.maxMemory }}"
+            - "--proactor_threads={{ .Values.dragonfly.proactorThreads }}"
+            - "--bind=0.0.0.0"
+
+          ports:
+            - name: redis
+              containerPort: {{ .Values.dragonfly.service.port }}
+

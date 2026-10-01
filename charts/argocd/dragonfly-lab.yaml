@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dragonfly-lab
+  namespace: argocd
+
+spec:
+  project: default
+
+  source:
+    repoURL: https://github.com/wilnauermarc/homelab-gitops
+    targetRevision: main
+    path: charts/dragonfly-lab
+    helm:
+      valueFiles:
+        - values.yaml
+
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: dragonfly-lab
+
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
