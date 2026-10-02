@@ -45,6 +45,8 @@ postgresql:
   database: loadlab
   username: loadlab
 
+  existingSecret: postgres-credentials
+
   persistence:
     enabled: true
     size: 1Gi
