@@ -2,8 +2,8 @@ targetApp:
   replicaCount: 1
 
   image:
-    repository: dragonfly-load-lab-target-app
-    tag: latest
+    repository: dragonfly-target-app
+    tag: local
     pullPolicy: IfNotPresent
 
   service:
@@ -12,7 +12,6 @@ targetApp:
 
   cacheTtlSeconds: 60
   pgPoolMax: 20
-
 
 dragonfly:
   enabled: true
