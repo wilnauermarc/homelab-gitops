@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
+
 spec:
   serviceName: postgres
   replicas: 1
@@ -52,14 +53,23 @@ spec:
             - name: postgres-data
               mountPath: /var/lib/postgresql/data
 
+            - name: postgres-init
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+
+      volumes:
+        - name: postgres-init
+          configMap:
+            name: postgres-init
+
   volumeClaimTemplates:
     - metadata:
         name: postgres-data
       spec:
         accessModes:
           - ReadWriteOnce
+
         resources:
           requests:
             storage: {{ .Values.postgresql.persistence.size }}
 {{- end }}
-

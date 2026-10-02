@@ -1,0 +1,13 @@
+{{- if .Values.postgresql.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+
+data:
+  01-schema.sql: |
+{{ .Files.Get "files/schema.sql" | indent 4 }}
+
+  02-seed.sql: |
+{{ .Files.Get "files/seed.sql" | indent 4 }}
+{{- end }}
